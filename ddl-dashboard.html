@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的DDL守护板</title>
+  <style>
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --text: #37352f;
+      --text-muted: #787774;
+      --border: rgba(55, 53, 47, 0.09);
+      --shadow: 0 1px 3px rgba(15, 15, 15, 0.04), 0 4px 12px rgba(15, 15, 15, 0.06);
+      --shadow-lg: 0 4px 24px rgba(15, 15, 15, 0.08);
+      --accent: #2383e2;
+      --accent-hover: #1a6fc4;
+      --blue: #3b82f6;
+      --orange: #f59e0b;
+      --red: #ef4444;
+      --radius: 12px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .header h1 {
+      font-size: clamp(1.5rem, 4vw, 1.875rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    /* Section labels */
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* Task list */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .empty-hint {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px dashed var(--border);
+    }
+
+    /* Task card */
+    .task-card {
+      position: relative;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px 20px 20px 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--blue);
+      transition: box-shadow 0.2s;
+    }
+
+    .task-card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .task-card.urgency-warn {
+      border-left-color: var(--orange);
+    }
+
+    .task-card.urgency-danger {
+      border-left-color: var(--red);
+      animation: breathe 2.5s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { box-shadow: var(--shadow), 0 0 0 0 rgba(239, 68, 68, 0); }
+      50% { box-shadow: var(--shadow-lg), 0 0 0 4px rgba(239, 68, 68, 0.12); }
+    }
+
+    .task-card.completed {
+      border-left-color: #d1d5db;
+      opacity: 0.85;
+      animation: none;
+    }
+
+    .task-card.completed .card-course,
+    .task-card.completed .card-content,
+    .task-card.completed .card-deadline,
+    .task-card.completed .card-countdown {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card-course {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-complete {
+      flex-shrink: 0;
+      padding: 4px 10px;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .btn-complete:hover {
+      color: #16a34a;
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .card-content {
+      font-size: 0.9375rem;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.875rem;
+    }
+
+    .card-deadline {
+      color: var(--text-muted);
+    }
+
+    .card-countdown {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .task-card.urgency-warn .card-countdown { color: #b45309; }
+    .task-card.urgency-danger .card-countdown { color: var(--red); }
+
+    .card-actions {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+
+    .btn-delete {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .btn-delete:hover {
+      color: var(--red);
+      background: #fef2f2;
+    }
+
+    /* Archive */
+    .archive {
+      margin-top: 40px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    .archive-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: color 0.15s;
+    }
+
+    .archive-toggle:hover {
+      color: var(--text);
+    }
+
+    .archive-toggle .chevron {
+      display: inline-block;
+      transition: transform 0.2s;
+      font-size: 0.75rem;
+    }
+
+    .archive-toggle[aria-expanded="true"] .chevron {
+      transform: rotate(90deg);
+    }
+
+    .archive-body {
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.2s;
+    }
+
+    .archive-body.collapsed {
+      max-height: 0 !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 8px;
+    }
+
+    .task-card.completed {
+      padding-right: 52px;
+    }
+
+    /* Modal */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 15, 15, 0.35);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 440px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 28px;
+      transform: translateY(8px) scale(0.98);
+      transition: transform 0.2s;
+    }
+
+    .overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.9375rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(35, 131, 226, 0.15);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 28px;
+    }
+
+    .btn-secondary {
+      padding: 10px 18px;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 24px 16px 40px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-primary {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .task-card {
+        padding: 16px 16px 16px 20px;
+      }
+
+      .card-top {
+        flex-wrap: wrap;
+        padding-right: 0;
+      }
+
+      .btn-complete {
+        order: 2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>📚 我的DDL守护板</h1>
+      <button type="button" class="btn-primary" id="btnAdd">+ 添加新任务</button>
+    </header>
+
+    <p class="section-label">进行中</p>
+    <div class="task-list" id="activeList"></div>
+    <p class="empty-hint" id="emptyHint" hidden>还没有任务，点击上方按钮添加第一个 DDL 吧</p>
+
+    <section class="archive">
+      <button type="button" class="archive-toggle" id="archiveToggle" aria-expanded="true">
+        <span class="chevron">▶</span>
+        <span id="archiveTitle">✅ 已完成的挑战 (0)</span>
+      </button>
+      <div class="archive-body" id="archiveBody">
+        <div class="archive-list task-list" id="completedList"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h2 id="modalTitle">添加新任务</h2>
+      <form id="taskForm">
+        <div class="form-group">
+          <label for="courseName">课程名称</label>
+          <input type="text" id="courseName" name="courseName" placeholder="例如：高等数学" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="assignment">作业内容</label>
+          <input type="text" id="assignment" name="assignment" placeholder="例如：第三章习题" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="deadline">截止日期和时间</label>
+          <input type="datetime-local" id="deadline" name="deadline" required>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="btnCancel">取消</button>
+          <button type="submit" class="btn-primary">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'ddl-dashboard-tasks';
+
+    let tasks = [];
+
+    const $ = (sel) => document.querySelector(sel);
+
+    function loadTasks() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        tasks = raw ? JSON.parse(raw) : [];
+      } catch {
+        tasks = [];
+      }
+    }
+
+    function saveTasks() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    }
+
+    function generateId() {
+      return 't_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+    }
+
+    function getUrgency(deadlineMs) {
+      const now = Date.now();
+      const diff = deadlineMs - now;
+      const oneDay = 24 * 60 * 60 * 1000;
+      const threeDays = 3 * oneDay;
+
+      if (diff < oneDay) return 'danger';
+      if (diff <= threeDays) return 'warn';
+      return 'calm';
+    }
+
+    function formatDeadline(iso) {
+      const d = new Date(iso);
+      const y = d.getFullYear();
+      const m = d.getMonth() + 1;
+      const day = d.getDate();
+      const h = String(d.getHours()).padStart(2, '0');
+      const min = String(d.getMinutes()).padStart(2, '0');
+      return `${y}年${m}月${day}日 ${h}:${min}`;
+    }
+
+    function formatCountdown(deadlineMs) {
+      const now = Date.now();
+      let diff = deadlineMs - now;
+
+      if (diff <= 0) {
+        const overdue = Math.abs(diff);
+        const days = Math.floor(overdue / (24 * 60 * 60 * 1000));
+        const hours = Math.floor((overdue % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+        if (days > 0) return `⚠️ 已过期 ${days} 天 ${hours} 小时`;
+        const mins = Math.floor((overdue % (60 * 60 * 1000)) / (60 * 1000));
+        if (hours > 0) return `⚠️ 已过期 ${hours} 小时 ${mins} 分钟`;
+        return `⚠️ 已过期 ${mins} 分钟`;
+      }
+
+      const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+      diff %= 24 * 60 * 60 * 1000;
+      const hours = Math.floor(diff / (60 * 60 * 1000));
+      diff %= 60 * 60 * 1000;
+      const minutes = Math.floor(diff / (60 * 1000));
+
+      if (days > 0) return `⏳ 还剩 ${days} 天 ${hours} 小时`;
+      if (hours > 0) return `⏳ 还剩 ${hours} 小时 ${minutes} 分钟`;
+      return `⏳ 还剩 ${minutes} 分钟`;
+    }
+
+    function createCardHTML(task) {
+      const deadlineMs = new Date(task.deadline).getTime();
+      const urgency = getUrgency(deadlineMs);
+      const urgencyClass = task.completed
+        ? 'completed'
+        : urgency === 'danger'
+          ? 'urgency-danger'
+          : urgency === 'warn'
+            ? 'urgency-warn'
+            : '';
+
+      const countdown = formatCountdown(deadlineMs);
+      const deadlineStr = formatDeadline(task.deadline);
+
+      const completeBtn = `<button type="button" class="btn-complete" data-action="complete" data-id="${task.id}">✓ 完成</button>`;
+      const deleteBtn = `
+        <div class="card-actions">
+          <button type="button" class="btn-delete" data-action="delete" data-id="${task.id}" title="彻底删除" aria-label="删除">🗑</button>
+        </div>`;
+
+      return `
+        <article class="task-card ${urgencyClass}" data-id="${task.id}">
+          ${task.completed ? deleteBtn : ''}
+          <div class="card-top">
+            <h3 class="card-course">${escapeHtml(task.courseName)}</h3>
+            ${task.completed ? '' : completeBtn}
+          </div>
+          <p class="card-content">${escapeHtml(task.assignment)}</p>
+          <div class="card-meta">
+            <span class="card-deadline">📅 ${deadlineStr}</span>
+            <span class="card-countdown" data-countdown="${task.id}">${countdown}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function render() {
+      const active = tasks
+        .filter((t) => !t.completed)
+        .sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+      const completed = tasks
+        .filter((t) => t.completed)
+        .sort((a, b) => (b.completedAt || 0) - (a.completedAt || 0));
+
+      const activeList = $('#activeList');
+      const completedList = $('#completedList');
+      const emptyHint = $('#emptyHint');
+
+      activeList.innerHTML = active.map(createCardHTML).join('');
+      completedList.innerHTML = completed.map(createCardHTML).join('');
+
+      emptyHint.hidden = active.length > 0;
+      $('#archiveTitle').textContent = `✅ 已完成的挑战 (${completed.length})`;
+
+      bindCardEvents();
+      updateCountdowns();
+      if (archiveExpanded) {
+        requestAnimationFrame(() => {
+          archiveBody.style.maxHeight = archiveBody.scrollHeight + 'px';
+        });
+      }
+    }
+
+    function bindCardEvents() {
+      document.querySelectorAll('[data-action="complete"]').forEach((btn) => {
+        btn.onclick = () => {
+          const id = btn.dataset.id;
+          const task = tasks.find((t) => t.id === id);
+          if (task) {
+            task.completed = true;
+            task.completedAt = Date.now();
+            saveTasks();
+            render();
+          }
+        };
+      });
+
+      document.querySelectorAll('[data-action="delete"]').forEach((btn) => {
+        btn.onclick = () => {
+          const id = btn.dataset.id;
+          tasks = tasks.filter((t) => t.id !== id);
+          saveTasks();
+          render();
+        };
+      });
+    }
+
+    function updateCountdowns() {
+      document.querySelectorAll('[data-countdown]').forEach((el) => {
+        const id = el.dataset.countdown;
+        const task = tasks.find((t) => t.id === id);
+        if (!task) return;
+        const deadlineMs = new Date(task.deadline).getTime();
+        el.textContent = formatCountdown(deadlineMs);
+
+        if (!task.completed) {
+          const card = el.closest('.task-card');
+          if (card) {
+            card.classList.remove('urgency-danger', 'urgency-warn');
+            const u = getUrgency(deadlineMs);
+            if (u === 'danger') card.classList.add('urgency-danger');
+            else if (u === 'warn') card.classList.add('urgency-warn');
+          }
+        }
+      });
+    }
+
+    function openModal() {
+      $('#overlay').classList.add('open');
+      $('#taskForm').reset();
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      $('#deadline').min = now.toISOString().slice(0, 16);
+      $('#courseName').focus();
+    }
+
+    function closeModal() {
+      $('#overlay').classList.remove('open');
+    }
+
+    $('#btnAdd').addEventListener('click', openModal);
+    $('#btnCancel').addEventListener('click', closeModal);
+
+    $('#overlay').addEventListener('click', (e) => {
+      if (e.target === $('#overlay')) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && $('#overlay').classList.contains('open')) closeModal();
+    });
+
+    $('#taskForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const courseName = $('#courseName').value.trim();
+      const assignment = $('#assignment').value.trim();
+      const deadline = $('#deadline').value;
+
+      if (!courseName || !assignment || !deadline) return;
+
+      tasks.push({
+        id: generateId(),
+        courseName,
+        assignment,
+        deadline: new Date(deadline).toISOString(),
+        completed: false,
+        createdAt: Date.now(),
+      });
+
+      saveTasks();
+      render();
+      closeModal();
+    });
+
+    const archiveToggle = $('#archiveToggle');
+    const archiveBody = $('#archiveBody');
+    let archiveExpanded = true;
+
+    archiveToggle.addEventListener('click', () => {
+      archiveExpanded = !archiveExpanded;
+      archiveToggle.setAttribute('aria-expanded', String(archiveExpanded));
+      archiveBody.classList.toggle('collapsed', !archiveExpanded);
+      archiveBody.style.maxHeight = archiveExpanded
+        ? archiveBody.scrollHeight + 'px'
+        : '0';
+    });
+
+    function initArchiveHeight() {
+      archiveBody.style.maxHeight = archiveBody.scrollHeight + 'px';
+    }
+
+    loadTasks();
+    render();
+    initArchiveHeight();
+
+    setInterval(updateCountdowns, 1000);
+
+    window.addEventListener('resize', () => {
+      if (archiveExpanded) {
+        archiveBody.style.maxHeight = archiveBody.scrollHeight + 'px';
+      }
+    });
+  </script>
+</body>
+</html>
