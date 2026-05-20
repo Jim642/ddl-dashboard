@@ -319,7 +319,9 @@
 
     .modal {
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
+      max-height: min(90vh, 720px);
+      overflow-y: auto;
       background: var(--surface);
       border-radius: var(--radius);
       box-shadow: var(--shadow-lg);
@@ -391,6 +393,318 @@
       background: var(--bg);
     }
 
+    .form-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .materials-section-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .drop-zone {
+      padding: 20px 16px;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      border-color: var(--accent);
+      background: #eef6fd;
+    }
+
+    .drop-zone input {
+      display: none;
+    }
+
+    .link-add-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .link-add-row input {
+      flex: 1;
+      min-width: 120px;
+      padding: 8px 10px;
+      font-size: 0.875rem;
+      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+    }
+
+    .link-add-row input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn-add-link {
+      padding: 8px 12px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid rgba(35, 131, 226, 0.35);
+      border-radius: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-add-link:hover {
+      background: #eef6fd;
+    }
+
+    .form-materials-list {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-material-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 10px;
+      font-size: 0.8125rem;
+      background: var(--bg);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .form-material-item span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-remove-item {
+      flex-shrink: 0;
+      padding: 2px 6px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-remove-item:hover {
+      color: var(--red);
+    }
+
+    .card-materials {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .materials-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      padding: 4px 0;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .materials-toggle:hover {
+      color: var(--text);
+    }
+
+    .materials-toggle .chevron {
+      font-size: 0.625rem;
+      transition: transform 0.2s;
+    }
+
+    .materials-toggle[aria-expanded="true"] .chevron {
+      transform: rotate(90deg);
+    }
+
+    .materials-body {
+      overflow: hidden;
+      max-height: 400px;
+      transition: max-height 0.25s ease, opacity 0.2s;
+    }
+
+    .materials-body.collapsed {
+      max-height: 0 !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .materials-list {
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .material-file-btn,
+    .material-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 0.8125rem;
+      text-align: left;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .material-file-btn:hover,
+    .material-link:hover {
+      background: #eeece8;
+      border-color: rgba(55, 53, 47, 0.15);
+    }
+
+    .material-file-btn .icon,
+    .material-link .icon {
+      flex-shrink: 0;
+    }
+
+    .material-link-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .card-countdown-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-snooze {
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .btn-snooze:hover {
+      border-color: #d4d4d4;
+      background: #eeece8;
+    }
+
+    .card-reminders {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .card-planned {
+      color: var(--text-muted);
+    }
+
+    .card-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .btn-edit {
+      padding: 4px 10px;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-edit:hover {
+      color: var(--accent);
+      border-color: rgba(35, 131, 226, 0.35);
+    }
+
+    /* Notification banner */
+    .notif-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      background: #eef6fd;
+      border: 1px solid rgba(35, 131, 226, 0.2);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+    }
+
+    .notif-banner.denied {
+      background: #fef9ee;
+      border-color: rgba(245, 158, 11, 0.35);
+    }
+
+    .notif-banner-text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .notif-banner-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-notif {
+      padding: 6px 14px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-notif-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-notif-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-notif-ghost {
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .btn-notif-ghost:hover {
+      color: var(--text);
+    }
+
     @media (max-width: 480px) {
       .container {
         padding: 24px 16px 40px;
@@ -428,6 +742,11 @@
       <button type="button" class="btn-primary" id="btnAdd">+ 添加新任务</button>
     </header>
 
+    <div id="notifBanner" class="notif-banner" hidden>
+      <p class="notif-banner-text" id="notifBannerText"></p>
+      <div class="notif-banner-actions" id="notifBannerActions"></div>
+    </div>
+
     <p class="section-label">进行中</p>
     <div class="task-list" id="activeList"></div>
     <p class="empty-hint" id="emptyHint" hidden>还没有任务，点击上方按钮添加第一个 DDL 吧</p>
@@ -456,8 +775,28 @@
           <input type="text" id="assignment" name="assignment" placeholder="例如：第三章习题" required autocomplete="off">
         </div>
         <div class="form-group">
+          <label for="plannedStart">计划开始日期</label>
+          <input type="date" id="plannedStart" name="plannedStart" required>
+          <p class="form-hint">当天早上 8:00 会提醒你开始动手</p>
+        </div>
+        <div class="form-group">
           <label for="deadline">截止日期和时间</label>
           <input type="datetime-local" id="deadline" name="deadline" required>
+          <p class="form-hint">截止前一日晚上 20:00 会提醒你最后冲刺</p>
+        </div>
+        <div class="form-group">
+          <p class="materials-section-label">📎 添加资料</p>
+          <label class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.png,.jpg,.jpeg,.gif,.webp,.txt,image/*">
+            拖拽文件到此处，或点击选择<br>
+            <span class="form-hint">支持 PDF、Word、PPT、图片等，单文件不超过 10MB</span>
+          </label>
+          <div class="link-add-row">
+            <input type="url" id="linkUrl" placeholder="粘贴网盘 / 在线文档链接" autocomplete="off">
+            <input type="text" id="linkLabel" placeholder="说明（如：老师发的作业要求）" autocomplete="off">
+            <button type="button" class="btn-add-link" id="btnAddLink">添加链接</button>
+          </div>
+          <div class="form-materials-list" id="formMaterialsList"></div>
         </div>
         <div class="form-actions">
           <button type="button" class="btn-secondary" id="btnCancel">取消</button>
@@ -469,8 +808,14 @@
 
   <script>
     const STORAGE_KEY = 'ddl-dashboard-tasks';
+    const FIRED_KEY = 'ddl-dashboard-fired';
+    const NOTIF_DISMISS_KEY = 'ddl-dashboard-notif-dismiss';
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
     let tasks = [];
+    let editingTaskId = null;
+    let formMaterials = { files: [], links: [] };
+    const scheduledTimeouts = [];
 
     const $ = (sel) => document.querySelector(sel);
 
@@ -478,13 +823,416 @@
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         tasks = raw ? JSON.parse(raw) : [];
+        let migrated = false;
+        tasks.forEach((task) => {
+          if (migrateTask(task)) migrated = true;
+        });
+        if (migrated) saveTasks();
       } catch {
         tasks = [];
       }
     }
 
+    function migrateTask(task) {
+      let changed = false;
+      if (!task.plannedStart) {
+        const dl = new Date(task.deadline);
+        const start = new Date(dl);
+        start.setDate(start.getDate() - 7);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (start < today) start.setTime(today.getTime());
+        task.plannedStart = toDateInputValue(start);
+        changed = true;
+      }
+      if (!task.materials) {
+        task.materials = { files: [], links: [] };
+        changed = true;
+      }
+      return changed;
+    }
+
     function saveTasks() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      } catch (e) {
+        if (e && (e.name === 'QuotaExceededError' || e.code === 22)) {
+          alert('本地存储空间已满，请删除部分任务资料、压缩文件，或改用链接代替大文件。');
+        }
+        throw e;
+      }
+    }
+
+    function cloneMaterials(materials) {
+      return {
+        files: (materials?.files || []).map((f) => ({ ...f })),
+        links: (materials?.links || []).map((l) => ({ ...l })),
+      };
+    }
+
+    function getMaterialsCount(task) {
+      const m = task.materials || { files: [], links: [] };
+      return (m.files?.length || 0) + (m.links?.length || 0);
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function resetFormMaterials() {
+      formMaterials = { files: [], links: [] };
+      renderFormMaterialsList();
+    }
+
+    function loadFormMaterialsFromTask(task) {
+      formMaterials = cloneMaterials(task.materials);
+      renderFormMaterialsList();
+    }
+
+    function renderFormMaterialsList() {
+      const list = $('#formMaterialsList');
+      const items = [];
+
+      formMaterials.files.forEach((f) => {
+        items.push(`
+          <div class="form-material-item">
+            <span>📄 ${escapeHtml(f.name)} (${formatFileSize(f.size)})</span>
+            <button type="button" class="btn-remove-item" data-remove="file" data-id="${f.id}">移除</button>
+          </div>
+        `);
+      });
+
+      formMaterials.links.forEach((l) => {
+        items.push(`
+          <div class="form-material-item">
+            <span>🔗 ${escapeHtml(l.label || l.url)}</span>
+            <button type="button" class="btn-remove-item" data-remove="link" data-id="${l.id}">移除</button>
+          </div>
+        `);
+      });
+
+      list.innerHTML = items.join('') || '<p class="form-hint">暂无资料，可上传文件或添加链接</p>';
+
+      list.querySelectorAll('[data-remove]').forEach((btn) => {
+        btn.onclick = () => {
+          const { remove, id } = btn.dataset;
+          if (remove === 'file') {
+            formMaterials.files = formMaterials.files.filter((f) => f.id !== id);
+          } else {
+            formMaterials.links = formMaterials.links.filter((l) => l.id !== id);
+          }
+          renderFormMaterialsList();
+        };
+      });
+    }
+
+    function processFiles(fileList) {
+      Array.from(fileList).forEach((file) => {
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`「${file.name}」超过 10MB，请压缩后上传或改用链接分享。`);
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result;
+          const base64 = typeof result === 'string' ? result.split(',')[1] : '';
+          formMaterials.files.push({
+            id: generateId(),
+            name: file.name,
+            mimeType: file.type || 'application/octet-stream',
+            size: file.size,
+            data: base64,
+          });
+          renderFormMaterialsList();
+        };
+        reader.onerror = () => alert(`读取「${file.name}」失败，请重试。`);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function addLinkFromForm() {
+      const url = $('#linkUrl').value.trim();
+      const label = $('#linkLabel').value.trim();
+      if (!url) {
+        alert('请粘贴链接地址');
+        return;
+      }
+      try {
+        new URL(url);
+      } catch {
+        alert('链接格式不正确，请以 http:// 或 https:// 开头');
+        return;
+      }
+      formMaterials.links.push({
+        id: generateId(),
+        url,
+        label: label || url,
+      });
+      $('#linkUrl').value = '';
+      $('#linkLabel').value = '';
+      renderFormMaterialsList();
+    }
+
+    function getFileDataUrl(file) {
+      return `data:${file.mimeType};base64,${file.data}`;
+    }
+
+    function previewOrDownloadFile(file) {
+      const url = getFileDataUrl(file);
+      const canPreview =
+        file.mimeType.startsWith('image/') || file.mimeType === 'application/pdf';
+      if (canPreview) {
+        window.open(url, '_blank', 'noopener');
+      } else {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.name;
+        a.click();
+      }
+    }
+
+    function buildMaterialsCardHTML(task) {
+      const count = getMaterialsCount(task);
+      if (count === 0) return '';
+
+      const m = task.materials;
+      const filesHtml = (m.files || [])
+        .map(
+          (f) => `
+        <button type="button" class="material-file-btn" data-action="preview-file" data-task-id="${task.id}" data-file-id="${f.id}">
+          <span class="icon">📄</span>
+          <span>${escapeHtml(f.name)}</span>
+        </button>
+      `
+        )
+        .join('');
+
+      const linksHtml = (m.links || [])
+        .map(
+          (l) => `
+        <a class="material-link" href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">
+          <span class="icon">🔗</span>
+          <span class="material-link-label">${escapeHtml(l.label || l.url)}</span>
+        </a>
+      `
+        )
+        .join('');
+
+      return `
+        <div class="card-materials">
+          <button type="button" class="materials-toggle" data-action="toggle-materials" data-id="${task.id}" aria-expanded="false">
+            <span class="chevron">▶</span>
+            <span>📎 相关资料 (${count})</span>
+          </button>
+          <div class="materials-body collapsed" id="materials-body-${task.id}">
+            <div class="materials-list">
+              ${filesHtml}
+              ${linksHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getFiredMap() {
+      try {
+        return JSON.parse(localStorage.getItem(FIRED_KEY) || '{}');
+      } catch {
+        return {};
+      }
+    }
+
+    function setFiredMap(map) {
+      localStorage.setItem(FIRED_KEY, JSON.stringify(map));
+    }
+
+    function notifRecordKey(taskId, type, alarmMs) {
+      return `${taskId}:${type}:${alarmMs}`;
+    }
+
+    function toDateInputValue(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function parseDateLocal(dateStr) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function dateAtLocalTime(dateStr, hour, minute) {
+      const d = parseDateLocal(dateStr);
+      d.setHours(hour, minute, 0, 0);
+      return d.getTime();
+    }
+
+    function getStartAlarmMs(task) {
+      return dateAtLocalTime(task.plannedStart, 8, 0);
+    }
+
+    function getSprintAlarmMs(task) {
+      const dl = new Date(task.deadline);
+      const d = new Date(dl.getFullYear(), dl.getMonth(), dl.getDate() - 1, 20, 0, 0, 0);
+      return d.getTime();
+    }
+
+    function formatDateOnly(dateStr) {
+      const d = parseDateLocal(dateStr);
+      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+    }
+
+    function formatAlarmShort(ms) {
+      const d = new Date(ms);
+      return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    }
+
+    function daysUntilDeadline(fromMs, deadlineIso) {
+      const diff = new Date(deadlineIso).getTime() - fromMs;
+      return Math.max(0, Math.ceil(diff / (24 * 60 * 60 * 1000)));
+    }
+
+    function addOneDayToDateStr(dateStr) {
+      const d = parseDateLocal(dateStr);
+      d.setDate(d.getDate() + 1);
+      return toDateInputValue(d);
+    }
+
+    function add24HoursToIso(iso) {
+      return new Date(new Date(iso).getTime() + 24 * 60 * 60 * 1000).toISOString();
+    }
+
+    function clearScheduledAlarms() {
+      scheduledTimeouts.forEach(clearTimeout);
+      scheduledTimeouts.length = 0;
+    }
+
+    function showBrowserNotification(title, body, tag) {
+      if (Notification.permission !== 'granted') return;
+      try {
+        new Notification(title, { body, tag });
+      } catch {
+        new Notification(title, { body });
+      }
+    }
+
+    function tryFireAlarm(task, type, alarmMs) {
+      if (task.completed) return;
+      const now = Date.now();
+      if (now < alarmMs) return;
+      if (now - alarmMs > 3 * 60 * 60 * 1000) return;
+
+      const key = notifRecordKey(task.id, type, alarmMs);
+      const fired = getFiredMap();
+      if (fired[key]) return;
+
+      let body;
+      if (type === 'start') {
+        const days = daysUntilDeadline(alarmMs, task.deadline);
+        body = `📚 该开始攻克 ${task.assignment} 了！离DDL还有${days}天，现在就动手吧。`;
+      } else {
+        body = `🚨 ${task.assignment} 明天就要交了！是时候最后检查一遍了。`;
+      }
+
+      showBrowserNotification('DDL 守护板', body, key);
+      fired[key] = true;
+      setFiredMap(fired);
+    }
+
+    function checkDueNotifications() {
+      if (Notification.permission !== 'granted') return;
+      tasks.filter((t) => !t.completed).forEach((task) => {
+        tryFireAlarm(task, 'start', getStartAlarmMs(task));
+        tryFireAlarm(task, 'sprint', getSprintAlarmMs(task));
+      });
+    }
+
+    function scheduleAlarms() {
+      clearScheduledAlarms();
+      if (Notification.permission !== 'granted') return;
+
+      const maxDelay = 7 * 24 * 60 * 60 * 1000;
+      tasks.filter((t) => !t.completed).forEach((task) => {
+        [
+          { type: 'start', ms: getStartAlarmMs(task) },
+          { type: 'sprint', ms: getSprintAlarmMs(task) },
+        ].forEach(({ type, ms }) => {
+          const delay = ms - Date.now();
+          if (delay > 0 && delay <= maxDelay) {
+            scheduledTimeouts.push(
+              setTimeout(() => tryFireAlarm(task, type, ms), delay)
+            );
+          }
+        });
+      });
+    }
+
+    function updateNotifBanner() {
+      const banner = $('#notifBanner');
+      const text = $('#notifBannerText');
+      const actions = $('#notifBannerActions');
+      const perm = Notification.permission;
+
+      if (perm === 'granted') {
+        banner.hidden = true;
+        return;
+      }
+
+      if (perm === 'default' && localStorage.getItem(NOTIF_DISMISS_KEY)) {
+        banner.hidden = true;
+        return;
+      }
+
+      banner.hidden = false;
+      banner.classList.toggle('denied', perm === 'denied');
+
+      if (perm === 'denied') {
+        text.textContent =
+          '浏览器已禁止通知。请在地址栏左侧的锁图标 → 网站设置 → 通知 → 改为「允许」，然后刷新本页。';
+        actions.innerHTML =
+          '<button type="button" class="btn-notif btn-notif-ghost" id="btnDismissNotif">知道了</button>';
+        $('#btnDismissNotif').onclick = () => {
+          banner.hidden = true;
+        };
+        return;
+      }
+
+      text.textContent =
+        '开启浏览器通知后，会在「计划开始日 8:00」和「截止前一日 20:00」准时提醒你，不再错过 DDL。';
+      actions.innerHTML = `
+        <button type="button" class="btn-notif btn-notif-primary" id="btnEnableNotif">开启智能提醒</button>
+        <button type="button" class="btn-notif btn-notif-ghost" id="btnDismissNotif">稍后再说</button>
+      `;
+      $('#btnEnableNotif').onclick = async () => {
+        const result = await Notification.requestPermission();
+        updateNotifBanner();
+        if (result === 'granted') {
+          scheduleAlarms();
+          checkDueNotifications();
+        }
+      };
+      $('#btnDismissNotif').onclick = () => {
+        localStorage.setItem(NOTIF_DISMISS_KEY, '1');
+        banner.hidden = true;
+      };
+    }
+
+    async function requestNotificationIfNeeded() {
+      if (!('Notification' in window)) {
+        $('#notifBanner').hidden = false;
+        $('#notifBanner').classList.add('denied');
+        $('#notifBannerText').textContent = '当前浏览器不支持桌面通知，请换用 Chrome / Edge / Firefox 打开。';
+        $('#notifBannerActions').innerHTML = '';
+        return;
+      }
+      updateNotifBanner();
+      if (Notification.permission === 'granted') {
+        scheduleAlarms();
+        checkDueNotifications();
+      }
     }
 
     function generateId() {
@@ -550,8 +1298,16 @@
 
       const countdown = formatCountdown(deadlineMs);
       const deadlineStr = formatDeadline(task.deadline);
+      const plannedStr = task.plannedStart ? formatDateOnly(task.plannedStart) : '';
+      const startAlarm = getStartAlarmMs(task);
+      const sprintAlarm = getSprintAlarmMs(task);
+      const remindersStr = task.completed
+        ? ''
+        : `<span class="card-reminders">🔔 启动 ${formatAlarmShort(startAlarm)} · 冲刺 ${formatAlarmShort(sprintAlarm)}</span>`;
 
       const completeBtn = `<button type="button" class="btn-complete" data-action="complete" data-id="${task.id}">✓ 完成</button>`;
+      const editBtn = `<button type="button" class="btn-edit" data-action="edit" data-id="${task.id}">编辑</button>`;
+      const snoozeBtn = `<button type="button" class="btn-snooze" data-action="snooze" data-id="${task.id}">🥱 再等1天</button>`;
       const deleteBtn = `
         <div class="card-actions">
           <button type="button" class="btn-delete" data-action="delete" data-id="${task.id}" title="彻底删除" aria-label="删除">🗑</button>
@@ -566,9 +1322,16 @@
           </div>
           <p class="card-content">${escapeHtml(task.assignment)}</p>
           <div class="card-meta">
-            <span class="card-deadline">📅 ${deadlineStr}</span>
-            <span class="card-countdown" data-countdown="${task.id}">${countdown}</span>
+            ${plannedStr && !task.completed ? `<span class="card-planned">🎯 计划开始：${plannedStr}</span>` : ''}
+            <span class="card-deadline">📅 截止：${deadlineStr}</span>
+            ${remindersStr}
+            <div class="card-countdown-row">
+              <span class="card-countdown" data-countdown="${task.id}">${countdown}</span>
+              ${task.completed ? '' : snoozeBtn}
+            </div>
+            ${task.completed ? '' : `<div class="card-toolbar">${editBtn}</div>`}
           </div>
+          ${buildMaterialsCardHTML(task)}
         </article>
       `;
     }
@@ -599,6 +1362,7 @@
 
       bindCardEvents();
       updateCountdowns();
+      scheduleAlarms();
       if (archiveExpanded) {
         requestAnimationFrame(() => {
           archiveBody.style.maxHeight = archiveBody.scrollHeight + 'px';
@@ -616,6 +1380,7 @@
             task.completedAt = Date.now();
             saveTasks();
             render();
+            scheduleAlarms();
           }
         };
       });
@@ -626,6 +1391,39 @@
           tasks = tasks.filter((t) => t.id !== id);
           saveTasks();
           render();
+        };
+      });
+
+      document.querySelectorAll('[data-action="snooze"]').forEach((btn) => {
+        btn.onclick = () => {
+          const task = tasks.find((t) => t.id === btn.dataset.id);
+          if (!task || task.completed) return;
+          task.plannedStart = addOneDayToDateStr(task.plannedStart);
+          task.deadline = add24HoursToIso(task.deadline);
+          saveTasks();
+          render();
+        };
+      });
+
+      document.querySelectorAll('[data-action="edit"]').forEach((btn) => {
+        btn.onclick = () => openModal(btn.dataset.id);
+      });
+
+      document.querySelectorAll('[data-action="toggle-materials"]').forEach((btn) => {
+        btn.onclick = () => {
+          const body = document.getElementById(`materials-body-${btn.dataset.id}`);
+          if (!body) return;
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          body.classList.toggle('collapsed', expanded);
+        };
+      });
+
+      document.querySelectorAll('[data-action="preview-file"]').forEach((btn) => {
+        btn.onclick = () => {
+          const task = tasks.find((t) => t.id === btn.dataset.taskId);
+          const file = task?.materials?.files?.find((f) => f.id === btn.dataset.fileId);
+          if (file) previewOrDownloadFile(file);
         };
       });
     }
@@ -650,20 +1448,57 @@
       });
     }
 
-    function openModal() {
+    function toDatetimeLocalValue(iso) {
+      const d = new Date(iso);
+      d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+      return d.toISOString().slice(0, 16);
+    }
+
+    function openModal(taskId) {
+      editingTaskId = taskId || null;
+      const isEdit = Boolean(editingTaskId);
+      $('#modalTitle').textContent = isEdit ? '编辑任务' : '添加新任务';
       $('#overlay').classList.add('open');
       $('#taskForm').reset();
+      $('#linkUrl').value = '';
+      $('#linkLabel').value = '';
+
       const now = new Date();
+      const todayStr = toDateInputValue(now);
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       $('#deadline').min = now.toISOString().slice(0, 16);
+      $('#plannedStart').max = '';
+
+      if (isEdit) {
+        const task = tasks.find((t) => t.id === editingTaskId);
+        if (!task) {
+          closeModal();
+          return;
+        }
+        $('#courseName').value = task.courseName;
+        $('#assignment').value = task.assignment;
+        $('#plannedStart').value = task.plannedStart;
+        $('#deadline').value = toDatetimeLocalValue(task.deadline);
+        $('#plannedStart').max = toDateInputValue(new Date(task.deadline));
+        loadFormMaterialsFromTask(task);
+      } else {
+        $('#plannedStart').value = todayStr;
+        const weekLater = new Date();
+        weekLater.setDate(weekLater.getDate() + 7);
+        $('#deadline').value = toDatetimeLocalValue(weekLater.toISOString());
+        resetFormMaterials();
+      }
+
       $('#courseName').focus();
     }
 
     function closeModal() {
       $('#overlay').classList.remove('open');
+      editingTaskId = null;
+      resetFormMaterials();
     }
 
-    $('#btnAdd').addEventListener('click', openModal);
+    $('#btnAdd').addEventListener('click', () => openModal());
     $('#btnCancel').addEventListener('click', closeModal);
 
     $('#overlay').addEventListener('click', (e) => {
@@ -678,23 +1513,68 @@
       e.preventDefault();
       const courseName = $('#courseName').value.trim();
       const assignment = $('#assignment').value.trim();
+      const plannedStart = $('#plannedStart').value;
       const deadline = $('#deadline').value;
 
-      if (!courseName || !assignment || !deadline) return;
+      if (!courseName || !assignment || !plannedStart || !deadline) return;
 
-      tasks.push({
-        id: generateId(),
+      if (new Date(plannedStart) > new Date(deadline)) {
+        alert('计划开始日期不能晚于截止日期');
+        return;
+      }
+
+      const payload = {
         courseName,
         assignment,
+        plannedStart,
         deadline: new Date(deadline).toISOString(),
-        completed: false,
-        createdAt: Date.now(),
-      });
+        materials: cloneMaterials(formMaterials),
+      };
 
-      saveTasks();
-      render();
-      closeModal();
+      try {
+        if (editingTaskId) {
+          const task = tasks.find((t) => t.id === editingTaskId);
+          if (task) Object.assign(task, payload);
+        } else {
+          tasks.push({
+            id: generateId(),
+            ...payload,
+            completed: false,
+            createdAt: Date.now(),
+          });
+        }
+        saveTasks();
+        render();
+        closeModal();
+      } catch {
+        /* saveTasks 已提示 */
+      }
     });
+
+    const dropZone = $('#dropZone');
+    const fileInput = $('#fileInput');
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) processFiles(fileInput.files);
+      fileInput.value = '';
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) processFiles(e.dataTransfer.files);
+    });
+
+    $('#btnAddLink').addEventListener('click', addLinkFromForm);
 
     const archiveToggle = $('#archiveToggle');
     const archiveBody = $('#archiveBody');
@@ -716,8 +1596,10 @@
     loadTasks();
     render();
     initArchiveHeight();
+    requestNotificationIfNeeded();
 
     setInterval(updateCountdowns, 1000);
+    setInterval(checkDueNotifications, 30000);
 
     window.addEventListener('resize', () => {
       if (archiveExpanded) {
